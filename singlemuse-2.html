@@ -17,13 +17,7 @@
     - The drag area (with the plot points) will not drag if you're using a touch screen
 
     Intructions: https://pastebin.com/xhv4HU3Q
-      - How to add muses
       - How to remove links from character navigation
-
-    Full profile example: muse 1
-    Profile without verse subtab: muse 2
-    Profile without people of interest subtab: muse 3
-    Profile without links: muse 4
     -->
 
 <head>
@@ -147,8 +141,8 @@
             background-color: #F1EEE6;
             font-family: 'Roboto', sans-serif;
             font-size: 12px;
-            min-height: 100%;
             margin: 0;
+            min-height: 100%;
             overflow-y: scroll;
             padding: 0 125px;
         }
@@ -163,35 +157,34 @@
             position: sticky;
             top: 0;
             z-index: 2;
-
         }
 
         .muse-title {
-            font-size: 100px;
-            text-transform: uppercase;
             font-family: Nevrada;
+            font-size: 100px;
             transform: translateY(25%);
+            text-transform: uppercase;
         }
 
         /* navigation */
         .navigation {
-            display: flex;
             align-items: center;
+            display: flex;
         }
 
         .navigation img {
-            width: 24px;
             height: 24px;
             margin-bottom: 5px;
+            width: 24px;
         }
 
         .navigation a {
             align-items: center;
             color: #000000;
-            text-transform: uppercase;
             display: flex;
             flex-direction: column;
             text-decoration: none;
+            text-transform: uppercase;
         }
 
         .navigation a:not(:last-child) {
@@ -200,50 +193,47 @@
 
         /* muse selection */
         .muse-selection {
+            display: inline-grid;
+            grid-gap: 5px;
+            grid-template-columns: repeat(2, 300px);
+            height: 800px;
+            padding-right: 15px;
             position: sticky;
             top: 160px;
             z-index: 1;
-            height: 805px;
-
-            display: inline-grid;
-            grid-gap: 15px;
-
-            grid-template-columns: repeat(2, 300px);
-            padding-right: 15px;
-
         }
 
         .muse {
-            max-width: 300px;
             height: 400px;
             justify-self: stretch;
+            max-width: 300px;
             min-width: 200px;
         }
 
         .muse-img {
             height: 100%;
-            width: 100%;
             outline: 1px solid #ffffff;
             outline-offset: -10px;
+            width: 100%;
         }
 
         .muse-quote {
-            position: relative;
             bottom: 135px;
-            padding: 0 25px;
             display: flex;
+            padding: 0 25px;
+            position: relative;
         }
 
         .muse-quote-icon {
-            min-width: 60px;
-            height: 60px;
             background-color: #ffffff;
-            color: #333333;
             border-radius: 10px;
-            font-size: 70px;
+            color: #333333;
             display: flex;
-            justify-content: center;
             font-family: Nevrada;
+            font-size: 70px;
+            height: 60px;
+            justify-content: center;
+            min-width: 60px;
         }
 
         .muse-quote-icon .text {
@@ -255,11 +245,11 @@
         .muse-quote-text {
             color: #ffffff;
             font-family: 'Cantarell', sans-serif;
-            text-transform: uppercase;
             font-size: 9px;
+            height: 100px;
             margin-left: 10px;
             text-shadow: 2px 2px 1px #000000;
-            height: 100px;
+            text-transform: uppercase;
             overflow-y: hidden;
         }
 
@@ -281,39 +271,37 @@
 
         .bio-header-section {
             background: #DAD7D0;
-            width: 100%;
             height: 50px;
             position: sticky;
             top: 110px;
-
+            width: 100%;
             z-index: 3;
         }
 
         .bio-header-section:before {
+            border: 1px solid;
+            border-bottom: 0;
+            bottom: 0;
             content: "";
-            position: absolute;
             left: 10px;
+            position: absolute;
             right: 10px;
             top: 10px;
-            bottom: 0;
-            border: 1px solid;
-            border-bottom: 0
         }
 
         .bio-name {
-            font-size: 50px;
-            text-align: center;
             color: #ffffff;
-            text-shadow: 2px 2px 1px #000000;
-
             font-family: Nevrada;
-            text-transform: lowercase;
-            top: 30px;
+            font-size: 50px;
             height: 55px;
             position: relative;
-            white-space: nowrap;
             overflow: hidden;
+            text-align: center;
+            text-shadow: 2px 2px 1px #000000;
+            text-transform: lowercase;
+            top: 30px;
             user-select: none;
+            white-space: nowrap;
         }
 
         /* tabs */
@@ -325,7 +313,6 @@
         .tab.active {
             display: block;
         }
-
 
         .subtab {
             display: none;
@@ -339,34 +326,32 @@
         .bio-right-section {
             background-color: #232323;
             padding: 0 50px 50px 50px;
-            position: relative;
-            z-index: 1;
             position: sticky;
             top: 160px;
-
+            z-index: 1;
         }
 
         .bio-right-section:before {
+            border: 1px solid;
+            border-top: 0;
+            bottom: 10px;
             content: "";
-            position: absolute;
             left: 10px;
+            position: absolute;
             right: 10px;
             top: 0;
-            bottom: 10px;
-            border: 1px solid;
-            border-top: 0
         }
 
         /* sub navigation */
         .bio-nav-section {
-            display: flex;
-            justify-content: center;
-            position: sticky;
-            top: 160px;
-            padding: 30px 0;
             background-color: #232323;
+            display: flex;
             flex-wrap: wrap;
+            justify-content: center;
+            padding: 30px 0;
+            position: sticky;
             text-transform: lowercase;
+            top: 160px;
         }
 
         .bio-nav-item {
@@ -375,12 +360,12 @@
         }
 
         .bio-nav-item:before {
-            width: 15px;
-            height: 15px;
             background-color: #353535;
-            margin-right: 10px;
             content: "";
             display: inline-block;
+            height: 15px;
+            margin-right: 10px;
+            width: 15px;
             vertical-align: middle;
         }
 
@@ -406,12 +391,12 @@
         }
 
         .muse-info .title {
-            text-transform: uppercase;
+            font-weight: normal;
             line-height: 14px;
             letter-spacing: 0.24em;
-            font-weight: normal;
             margin-right: 20px;
             min-width: 130px;
+            text-transform: uppercase;
             width: 130px;
         }
 
@@ -421,34 +406,34 @@
 
         /* verse */
         .verse-item {
-            display: flex;
             align-items: center;
+            display: flex;
             margin-bottom: 10px;
         }
 
         .verse-item .muse-quote-icon,
         .relationship-item .muse-quote-icon,
         .ppp-point .muse-quote-icon {
-            width: 25px;
-            height: 25px;
-            min-width: 25px;
-            margin-right: 10px;
             font-size: 25px;
+            height: 25px;
+            margin-right: 10px;
+            min-width: 25px;
+            width: 25px;
         }
 
         .verse-item .verse-name-availability {
             margin-right: 10px;
-            text-align: right;
             min-width: 110px;
+            text-align: right;
             width: 110px;
         }
 
         .verse-item .title,
         .relationship-item .title {
-            text-transform: uppercase;
-            line-height: 14px;
-            letter-spacing: 0.24em;
             font-weight: normal;
+            letter-spacing: 0.24em;
+            line-height: 14px;
+            text-transform: uppercase;
         }
 
         /* relationship */
@@ -462,8 +447,8 @@
 
         .relationship-description {
             display: flex;
-            position: relative;
             left: 30%;
+            position: relative;
             top: -15px;
         }
 
@@ -472,45 +457,41 @@
         }
 
         .plot-point-popup {
-            position: fixed;
             background: #232323;
-            width: 410px;
-            top: 70%;
-            left: 60%;
-            z-index: 30;
             border: 1px solid #ffffff;
             border-radius: 10px;
-            padding: 0 20px 20px 20px;
-
+            left: 60%;
             max-height: 300px;
+            padding: 0 20px 20px 20px;
+            position: fixed;
             overflow-y: scroll;
+            top: 70%;
+            width: 410px;
+            z-index: 30;
         }
 
         .ppp-header {
-            display: flex;
             align-items: center;
-
+            background-color: #232323;
+            display: flex;
             justify-content: space-between;
             position: sticky;
             top: 0;
             z-index: 32;
-
-            background: #232323;
         }
 
         .ppp-header .drag {
-            height: 25px;
-            width: 25px;
-
-            top: -5px;
-            position: relative;
-            cursor: -webkit-grabbing;
             cursor: grabbing;
+            cursor: -webkit-grabbing;
+            height: 25px;
+            position: relative;
+            top: -5px;
+            width: 25px;
         }
 
         .ppp-point {
-            display: flex;
             align-items: center;
+            display: flex;
             margin-bottom: 10px;
         }
 
@@ -518,8 +499,6 @@
             font-size: 14px;
             line-height: 35px;
         }
-
-
 
         /* credit */
         #credit {
@@ -551,8 +530,6 @@
             border-radius: 1px;
         }
 
-
-
         @media (max-width: 1400px) {
             .muse-selection {
                 grid-template-columns: repeat(1, 300px);
@@ -561,8 +538,8 @@
 
         @media (max-width: 1024px) {
             .muse {
-                width: 250px;
                 height: 350px;
+                width: 250px;
             }
         }
 
