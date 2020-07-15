@@ -4,4 +4,4 @@ Code and design created intended to demonstrate a various number of characters a
 
 multiple characters             |  singe character
 :-------------------------:|:-------------------------:
-![](./assets/multi.gif)  |  ![](./assets/single.gif)
+![](./assets/multi.gif)  |  ![](./assets/single.png)
