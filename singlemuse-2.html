@@ -1,0 +1,3946 @@
+<!DOCTYPE html>
+
+<!-- 💀💀💀💀 
+    
+    singlemuse #2 by captain skells
+    
+    Don't claim this code as your own.
+    Don't sell this code.
+
+    You can use it as a base and change it, but don't remove the credit.
+    
+    HOW TO USE IT:
+    - Most items (full name: name, for example) are bundled in a div with a class.
+        You need that class in order to have the look on the example. Copy paste from start to end (you'll see the comments)
+    - Best viewed on chrome, edge and opera.
+    - It will NOT work on any version of IE
+    - The drag area (with the plot points) will not drag if you're using a touch screen
+
+    Intructions: https://pastebin.com/xhv4HU3Q
+      - How to add muses
+      - How to remove links from character navigation
+
+    Full profile example: muse 1
+    Profile without verse subtab: muse 2
+    Profile without people of interest subtab: muse 3
+    Profile without links: muse 4
+    -->
+
+<head>
+
+    <title>{Title}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell&display=swap" rel="stylesheet">
+
+
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
+    <script>
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let allIcons = document.querySelectorAll('.muse')
+            let activeIcon = document.querySelector('.muse.active')
+            let activeTab = document.querySelector('.tab.active')
+
+            let allItems = document.querySelectorAll('.bio-nav-item')
+            let activeSubTab = document.querySelector('.subtab.active')
+
+
+            let drag = document.querySelectorAll('.plot-point-popup')
+
+            /* icon click */
+            allIcons.forEach(item => {
+                item.addEventListener("click", function (event) {
+                    let eventTab = event.currentTarget
+
+                    activeIcon.classList.remove('active');
+                    activeIcon = document.querySelector('[data-tab = ' + this.dataset.tab + ']');
+                    activeIcon.classList.add('active');
+
+                    activeTab.classList.remove('active');
+                    activeTab = document.querySelector('#' + eventTab.dataset.tab);
+
+                    activeSubTab.classList.remove('active');
+                    activeSubTab = document.querySelector('#' + eventTab.dataset.tab + 'a')
+
+                    /* select sub navigation */
+                    document.querySelector('#' + eventTab.dataset.tab).classList.add('active');
+                    document.querySelector('#' + eventTab.dataset.tab + 'a').classList.add('active');
+
+                    ppp = activeTab.querySelector('.plot-point-popup')
+                })
+            })
+
+            /* sub tabs click */
+            allItems.forEach(item => {
+
+                item.addEventListener("click", function (event) {
+
+                    activeSubTab.classList.remove('active');
+
+                    activeSubTab = document.querySelector('#' + event.target.dataset.tab);
+
+                    document.querySelector('#' + event.target.dataset.tab).classList.add('active');
+
+                })
+            })
+
+            /* ppp drag method */
+            drag.forEach(drag => {
+                dragElement(drag)
+
+            })
+
+            /* code credit: https://www.w3schools.com/howto/howto_js_draggable.asp */
+            function dragElement(elmnt) {
+                var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+                if (document.getElementById(elmnt.id + "header")) {
+                    // if present, the header is where you move the DIV from:
+                    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+                } else {
+                    // otherwise, move the DIV from anywhere inside the DIV:
+                    elmnt.onmousedown = dragMouseDown;
+                }
+
+                function dragMouseDown(e) {
+                    e = e || window.event;
+                    e.preventDefault();
+                    // get the mouse cursor position at startup:
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                    document.onmouseup = closeDragElement;
+                    // call a function whenever the cursor moves:
+                    document.onmousemove = elementDrag;
+                }
+
+                function elementDrag(e) {
+                    e = e || window.event;
+                    e.preventDefault();
+                    // calculate the new cursor position:
+                    pos1 = pos3 - e.clientX;
+                    pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                    // set the element's new position:
+                    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                }
+
+                function closeDragElement() {
+                    // stop moving when mouse button is released:
+                    document.onmouseup = null;
+                    document.onmousemove = null;
+                }
+            }
+
+
+            /* tooltip */
+            tippy('#credit', {
+                content: 'by <a href="https://captainskells.tumblr.com/">cpt. skells</a>',
+                allowHTML: true,
+                interactive: true
+            });
+        });
+
+    </script>
+
+
+    <!-- CSS -->
+
+    <style type="text/css">
+        @font-face {
+            font-family: 'Nevrada';
+            src: url('https://static.tumblr.com/jazl7cn/bmcqdbmmo/al_nevrada_personal_use_only.ttf');
+        }
+
+        /* colors
+        #F1EEE6 - yellow background
+        #232323 - dark background bio
+        #353535 - square
+
+      The css is separated into different sections that will be clear given the page.
+      Each property should be ordered alphabetically to make them easier to find / change.
+        */
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            background-color: #F1EEE6;
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            min-height: 100%;
+            margin: 0;
+            overflow-y: scroll;
+            padding: 0 125px;
+        }
+
+        /* top bar */
+        .top-section {
+            background-color: #F1EEE6;
+            display: flex;
+            height: 110px;
+            justify-content: space-between;
+            padding-top: 50px;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+
+        }
+
+        .muse-title {
+            font-size: 100px;
+            text-transform: uppercase;
+            font-family: Nevrada;
+            transform: translateY(25%);
+        }
+
+        /* navigation */
+        .navigation {
+            display: flex;
+            align-items: center;
+        }
+
+        .navigation img {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 5px;
+        }
+
+        .navigation a {
+            align-items: center;
+            color: #000000;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+        }
+
+        .navigation a:not(:last-child) {
+            margin-right: 50px;
+        }
+
+        /* muse selection */
+        .muse-selection {
+            position: sticky;
+            top: 159px;
+            z-index: 1;
+            height: 805px;
+            overflow-y: scroll;
+
+            display: inline-grid;
+            grid-gap: 15px;
+
+            grid-template-columns: repeat(2, 300px);
+            padding-right: 15px;
+
+        }
+
+        .muse {
+            max-width: 300px;
+            height: 400px;
+            justify-self: stretch;
+            min-width: 200px;
+        }
+
+        .muse-img {
+            height: 100%;
+            width: 100%;
+            outline: 1px solid #ffffff;
+            outline-offset: -10px;
+        }
+
+        .muse-quote {
+            position: relative;
+            bottom: 135px;
+            padding: 0 25px;
+            display: flex;
+        }
+
+        .muse-quote-icon {
+            min-width: 60px;
+            height: 60px;
+            background-color: #ffffff;
+            color: #333333;
+            border-radius: 10px;
+            font-size: 70px;
+            display: flex;
+            justify-content: center;
+            font-family: Nevrada;
+        }
+
+        .muse-quote-icon .text {
+            position: relative;
+            transform: translateY(-50%);
+            top: 42%;
+        }
+
+        .muse-quote-text {
+            color: #ffffff;
+            font-family: 'Cantarell', sans-serif;
+            text-transform: uppercase;
+            font-size: 9px;
+            margin-left: 10px;
+            text-shadow: 2px 2px 1px #000000;
+            height: 100px;
+            overflow-y: hidden;
+        }
+
+        /* muse listing and bio section */
+
+        .bottom-section {
+            display: flex;
+            top: 110px;
+        }
+
+        /* bio */
+
+        .bio-section {
+            color: #ffffff;
+            position: relative;
+            top: -50px;
+            width: 600px;
+        }
+
+        .bio-header-section {
+            background: #DAD7D0;
+            width: 100%;
+            height: 50px;
+            position: sticky;
+            top: 110px;
+
+            z-index: 3;
+        }
+
+        .bio-header-section:before {
+            content: "";
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            top: 10px;
+            bottom: 0;
+            border: 1px solid;
+            border-bottom: 0
+        }
+
+        .bio-name {
+            font-size: 50px;
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 2px 2px 1px #000000;
+
+            font-family: Nevrada;
+            text-transform: lowercase;
+            top: 30px;
+            height: 55px;
+            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* tabs */
+
+        .tab {
+            display: none;
+        }
+
+        .tab.active {
+            display: block;
+        }
+
+
+        .subtab {
+            display: none;
+        }
+
+        .subtab.active {
+            display: block;
+        }
+
+
+        .bio-right-section {
+            background-color: #232323;
+            padding: 0 50px 50px 50px;
+            position: relative;
+            z-index: 1;
+            position: sticky;
+            top: 160px;
+
+        }
+
+        .bio-right-section:before {
+            content: "";
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            top: 0;
+            bottom: 10px;
+            border: 1px solid;
+            border-top: 0
+        }
+
+        /* sub navigation */
+        .bio-nav-section {
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            top: 160px;
+            padding: 30px 0;
+            background-color: #232323;
+            flex-wrap: wrap;
+            text-transform: lowercase;
+        }
+
+        .bio-nav-item {
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .bio-nav-item:before {
+            width: 15px;
+            height: 15px;
+            background-color: #353535;
+            margin-right: 10px;
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .bio-nav-section a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        /* tab content */
+        .tabs h3 {
+            font-family: Nevrada;
+            font-size: 24px;
+            padding-left: 1px;
+        }
+
+        .muse-info {
+            display: flex;
+
+        }
+
+        .muse-info:not(:last-child) {
+            margin-bottom: 15px;
+        }
+
+        .muse-info .title {
+            text-transform: uppercase;
+            line-height: 14px;
+            letter-spacing: 0.24em;
+            font-weight: normal;
+            margin-right: 20px;
+            min-width: 130px;
+            width: 130px;
+        }
+
+        .muse-info span {
+            align-self: center;
+        }
+
+        /* verse */
+        .verse-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .verse-item .muse-quote-icon,
+        .relationship-item .muse-quote-icon,
+        .ppp-point .muse-quote-icon {
+            width: 25px;
+            height: 25px;
+            min-width: 25px;
+            margin-right: 10px;
+            font-size: 25px;
+        }
+
+        .verse-item .verse-name-availability {
+            margin-right: 10px;
+            text-align: right;
+            min-width: 110px;
+            width: 110px;
+        }
+
+        .verse-item .title,
+        .relationship-item .title {
+            text-transform: uppercase;
+            line-height: 14px;
+            letter-spacing: 0.24em;
+            font-weight: normal;
+        }
+
+        /* relationship */
+
+        .relationship-list {
+            display: grid;
+            grid-template-columns: repeat(3, 32%);
+            grid-gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .relationship-description {
+            display: flex;
+            position: relative;
+            left: 30%;
+            top: -15px;
+        }
+
+        .relationship-list .title {
+            font-size: 10px;
+        }
+
+        .plot-point-popup {
+            position: fixed;
+            background: #232323;
+            width: 410px;
+            top: 70%;
+            left: 60%;
+            z-index: 30;
+            border: 1px solid #ffffff;
+            border-radius: 10px;
+            padding: 0 20px 20px 20px;
+
+            max-height: 300px;
+            overflow-y: scroll;
+        }
+
+        .ppp-header {
+            display: flex;
+            align-items: center;
+
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 32;
+
+            background: #232323;
+        }
+
+        .ppp-header .drag {
+            height: 25px;
+            width: 25px;
+
+            top: -5px;
+            position: relative;
+            cursor: -webkit-grabbing;
+            cursor: grabbing;
+        }
+
+        .ppp-point {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .ppp-point .muse-quote-icon {
+            font-size: 14px;
+            line-height: 35px;
+        }
+
+
+
+        /* credit */
+        #credit {
+            bottom: 30px;
+            position: fixed;
+            right: 60px;
+        }
+
+        .tippy-box {
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .tippy-box a {
+            color: #ffffff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: transparent;
+            border-radius: 1px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: transparent;
+            border-radius: 1px;
+        }
+
+
+
+        @media (max-width: 1400px) {
+            .muse-selection {
+                grid-template-columns: repeat(1, 300px);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .muse {
+                width: 250px;
+                height: 350px;
+            }
+        }
+
+        /* dealing with high retina screens */
+        @media only screen and (min--moz-device-pixel-ratio: 2),
+        only screen and (-o-min-device-pixel-ratio: 2/1),
+        only screen and (-webkit-min-device-pixel-ratio: 2),
+        only screen and (min-device-pixel-ratio: 2) {
+            .muse-title {
+                position: relative;
+                top: -50%;
+            }
+
+            .bio-name {
+                top: 10px;
+            }
+        }
+
+        /* 💀💀💀💀 */
+    </style>
+
+</head>
+
+
+<body>
+    <div class="top-section">
+
+        <div class="muse-title">Muses;</div>
+        <div class="navigation-section">
+
+            <!-- links -->
+
+            <div class="navigation">
+                <a href="[your blog link]"><img src="https://image.flaticon.com/icons/svg/846/846551.svg" />back</a>
+                <a href="[your ask link]"><img src="https://image.flaticon.com/icons/svg/561/561127.svg" />message</a>
+                <a href="[your rules link]"><img src="https://image.flaticon.com/icons/svg/171/171322.svg" />rules</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="bottom-section">
+        <!-- muse selection
+    here's where you'll put the roster icons: 80px by 80px
+  -->
+
+        <div class="muse-selection">
+            <!-- muse icon starts: 300px by 400px -->
+            <div class="muse active" data-tab="tab1">
+                <img class="muse-img" draggable="false"
+                    src="https://i.ibb.co/HYrx1h7/3ffb129a06398e5c65f49b878628326f.png">
+                <div class="muse-quote">
+                    <div class="muse-quote-icon"><span class="text">❝</span></div>
+                    <div class="muse-quote-text">Well, I’m gonna scrawl my name On the bare bones of the earth I’m gonna
+                        dig my heels Into the ground ‘Cause when that ferryman comes For to tally up my worth I won’t
+                        leave much to find That can be foundWell, I’m gonna scrawl my name On the bare bones of the
+                        earth I’m gonna
+                        dig my heels Into the ground ‘Cause when that ferryman comes For to tally up my worth I won’t
+                        leave much to find That can be found</div>
+                </div>
+            </div>
+            <!-- muse icon starts: 300px by 400px -->
+            <div class="muse" data-tab="tab2">
+                <img class="muse-img" draggable="false"
+                    src="https://i.ibb.co/nM2rRj9/4cdd3feb5db6a122033e7dd155e10beb.png">
+                <div class="muse-quote">
+                    <div class="muse-quote-icon"><span class="text">❝</span></div>
+                    <div class="muse-quote-text">Well, I’m gonna scrawl my name On the bare bones of the earth I’m gonna
+                        dig my heels Into the ground ‘Cause when that ferryman comes For to tally up my worth I won’t
+                        leave much to find That can be found</div>
+                </div>
+            </div>
+            <!-- muse icon starts: 300px by 400px -->
+            <div class="muse" data-tab="tab3">
+                <img class="muse-img" draggable="false"
+                    src="https://i.ibb.co/vxhWPqh/8ba18db0e15be738da79bf732e89c043.png">
+                <div class="muse-quote">
+                    <div class="muse-quote-icon"><span class="text">❝</span></div>
+                    <div class="muse-quote-text">Well, I’m gonna scrawl my name On the bare bones of the earth I’m gonna
+                        dig my heels Into the ground ‘Cause when that ferryman comes For to tally up my worth I won’t
+                        leave much to find That can be found</div>
+                </div>
+            </div>
+            <!-- muse icon starts: 300px by 400px -->
+            <div class="muse" data-tab="tab4">
+                <img class="muse-img" draggable="false"
+                    src="https://i.ibb.co/qM9qCCV/ac625fbe4fa9b0890f0210fae6490425.png.jpg">
+                <div class="muse-quote">
+                    <div class="muse-quote-icon"><span class="text">❝</span></div>
+                    <div class="muse-quote-text">Well, I’m gonna scrawl my name On the bare bones of the earth I’m gonna
+                        dig my heels Into the ground ‘Cause when that ferryman comes For to tally up my worth I won’t
+                        leave much to find That can be found</div>
+                </div>
+            </div>
+        </div>
+        <!-- muse selection list end-->
+
+        <!-- tab -->
+
+        <div class="bio-section">
+
+            <div class="tabs">
+
+                <!-- muse 1 starts -->
+                <div class="tab active" id="tab1">
+
+                    <!-- muse name -->
+                    <div class="bio-header-section">
+                        <div class="bio-name">muse name</div>
+                    </div>
+                    <!-- muse name end -->
+
+                    <!-- muse info -->
+                    <div class="bio-right-section">
+                        <!-- sub menu with links -->
+                        <div class="bio-nav-section">
+                            <div data-tab="tab1a" class="bio-nav-item">biography</div>
+                            <div data-tab="tab1b" class="bio-nav-item">verses</div>
+                            <div data-tab="tab1c" class="bio-nav-item">people of note</div>
+                            <a class="bio-nav-item" href="[your threads link]">muse</a>
+                            <a class="bio-nav-item" href="[your aesthetics link]">aesthetic</a>
+                            <a class="bio-nav-item" href="[your headcanons link]">headcanon</a>
+                        </div>
+                        <!-- sub menu with links ends -->
+
+
+                        <!-- tab - biography starts -->
+                        <div id="tab1a" class="subtab active">
+
+                            <!-- biography - basic -->
+
+                            <h3>basic</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">full name.</div>
+                                <span>Name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other names.</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other name(s)</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">titles</div>
+                                <span>Titles</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">occupation</div>
+                                <span>Occupation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">date of birth</div>
+                                <span>Date of Birth</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">race</div>
+                                <span>Race</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">gender . pronouns</div>
+                                <span>Gender . pronouns</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">orientation</div>
+                                <span>Orientation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">spoken languages</div>
+                                <span>Spoken languages</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - background -->
+
+                            <h3>background</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hometown</div>
+                                <span>Hometown</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">current residence</div>
+                                <span>Current Residence</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">father</div>
+                                <span>Father's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">mother</div>
+                                <span>Mother's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">siblings</div>
+                                <span>Siblings' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">child(ren)</div>
+                                <span>Children's names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">pet(s)</div>
+                                <span>Pets' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - physical -->
+
+                            <h3>physical</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">faceclaim</div>
+                                <span>Faceclaim name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">height</div>
+                                <span>Height</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">eye colour</div>
+                                <span>Eye colour</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hair colour . style</div>
+                                <span>Hair colour and style</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">dominant hand</div>
+                                <span>Dominant hand</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">tattoo(s)</div>
+                                <span>Tatoos</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">scar(s)</div>
+                                <span>Scars</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- other -->
+
+                            <h3>other</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">religion</div>
+                                <span>Religion</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">addictions</div>
+                                <span>Addictions</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title"> alignment</div>
+                                <span>Alignment</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hogwarts house</div>
+                                <span>Hogwarts house</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <!-- for example: closed, selective, open -->
+                                <div class="title">shipping</div>
+                                <span>Shipping</span>
+                            </div>
+                            <!-- muse information end -->
+
+                        </div>
+                        <!-- tab - biography ends -->
+
+                        <!-- tab - verses starts -->
+                        <div id="tab1b" class="subtab">
+
+                            <!-- canon -->
+
+                            <h3>canon verses</h3>
+
+                            <!-- list for canon verses starts -->
+                            <div class="verse-list">
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                            </div>
+                            <!-- list for canon verses ends -->
+
+                            <h3>alternative verses</h3>
+
+                            <!-- list for alternative verses starts -->
+                            <div class="verse-list">
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                            </div>
+                            <!-- list for alternative verses ends -->
+
+                        </div>
+                        <!-- tab - verses ends -->
+
+                        <!-- tab - people of note starts -->
+                        <div id="tab1c" class="subtab">
+
+                            <h3>npcs</h3>
+
+                            <!-- list for npcs starts
+              npcs that you've created around your character but are not written by another person -->
+
+                            <div class="relationship-list">
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+
+                            </div>
+                            <!-- list for npcs ends -->
+
+                            <h3>connections</h3>
+
+                            <!-- list for connections starts
+            characters that you feel are important for your characterization and are written by other people in the community -->
+                            <div class="relationship-list">
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+                            </div>
+                            <!-- list for connections ends -->
+
+                        </div>
+                        <!-- tab - people of note ends -->
+                    </div>
+                    <!-- muse info ends -->
+
+                    <!-- draggable popup starts -->
+                    <div class="plot-point-popup">
+                        <div class="ppp-header">
+                            <h3>important plot points</h3>
+                            <img class="drag" draggable="false" src="https://i.ibb.co/17XrX4K/move.png" />
+                        </div>
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                1.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                2.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                3.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                4.
+                            </div>
+                            <div class="ppp-description">
+                                this is a longer point about something that is important for readers to know before
+                                interaction, perhaps even longer than usual so that we can see how it looks with 3 lines
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+                    </div>
+                    <!-- draggable popup ends -->
+                </div>
+                <!-- muse 1 ends -->
+
+                <!-- muse 2 starts -->
+                <div class="tab" id="tab2">
+
+                    <!-- muse name -->
+                    <div class="bio-header-section">
+                        <div class="bio-name">muse name - no verse</div>
+                    </div>
+                    <!-- muse name end -->
+
+                    <!-- muse info -->
+                    <div class="bio-right-section">
+                        <!-- sub menu with links -->
+                        <div class="bio-nav-section">
+                            <div data-tab="tab2a" class="bio-nav-item">biography</div>
+                            <div data-tab="tab2b" class="bio-nav-item">people of note</div>
+                            <a class="bio-nav-item" href="[your threads link]">muse</a>
+                            <a class="bio-nav-item" href="[your aesthetics link]">aesthetic</a>
+                            <a class="bio-nav-item" href="[your headcanons link]">headcanon</a>
+                        </div>
+                        <!-- sub menu with links ends -->
+
+
+                        <!-- tab - biography starts -->
+                        <div id="tab2a" class="subtab active">
+
+                            <!-- biography - basic -->
+
+                            <h3>basic</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">full name.</div>
+                                <span>Name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other names.</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other name(s)</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">titles</div>
+                                <span>Titles</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">occupation</div>
+                                <span>Occupation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">date of birth</div>
+                                <span>Date of Birth</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">race</div>
+                                <span>Race</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">gender . pronouns</div>
+                                <span>Gender . pronouns</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">orientation</div>
+                                <span>Orientation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">spoken languages</div>
+                                <span>Spoken languages</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - background -->
+
+                            <h3>background</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hometown</div>
+                                <span>Hometown</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">current residence</div>
+                                <span>Current Residence</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">father</div>
+                                <span>Father's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">mother</div>
+                                <span>Mother's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">siblings</div>
+                                <span>Siblings' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">child(ren)</div>
+                                <span>Children's names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">pet(s)</div>
+                                <span>Pets' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - physical -->
+
+                            <h3>physical</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">faceclaim</div>
+                                <span>Faceclaim name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">height</div>
+                                <span>Height</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">eye colour</div>
+                                <span>Eye colour</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hair colour . style</div>
+                                <span>Hair colour and style</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">dominant hand</div>
+                                <span>Dominant hand</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">tattoo(s)</div>
+                                <span>Tatoos</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">scar(s)</div>
+                                <span>Scars</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- other -->
+
+                            <h3>other</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">religion</div>
+                                <span>Religion</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">addictions</div>
+                                <span>Addictions</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title"> alignment</div>
+                                <span>Alignment</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hogwarts house</div>
+                                <span>Hogwarts house</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <!-- for example: closed, selective, open -->
+                                <div class="title">shipping</div>
+                                <span>Shipping</span>
+                            </div>
+                            <!-- muse information end -->
+
+                        </div>
+                        <!-- tab - biography ends -->
+
+                        <!-- tab - people of note starts -->
+                        <div id="tab2b" class="subtab">
+
+                            <h3>npcs</h3>
+
+                            <!-- list for npcs starts
+              npcs that you've created around your character but are not written by another person -->
+
+                            <div class="relationship-list">
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+
+                            </div>
+                            <!-- list for npcs ends -->
+
+                            <h3>connections</h3>
+
+                            <!-- list for connections starts
+            characters that you feel are important for your characterization and are written by other people in the community -->
+                            <div class="relationship-list">
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+                            </div>
+                            <!-- list for connections ends -->
+
+                        </div>
+                        <!-- tab - people of note ends -->
+                    </div>
+                    <!-- muse info ends -->
+
+                    <!-- draggable popup starts -->
+                    <div class="plot-point-popup">
+                        <div class="ppp-header">
+                            <h3>important plot points</h3>
+                            <img class="drag" draggable="false" src="https://i.ibb.co/17XrX4K/move.png" />
+                        </div>
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                1.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                2.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                3.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                4.
+                            </div>
+                            <div class="ppp-description">
+                                this is a longer point about something that is important for readers to know before
+                                interaction, perhaps even longer than usual so that we can see how it looks with 3 lines
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+                    </div>
+                    <!-- draggable popup ends -->
+                </div>
+                <!-- muse 2 ends -->
+
+                <!-- muse 3 starts -->
+                <div class="tab" id="tab3">
+
+                    <!-- muse name -->
+                    <div class="bio-header-section">
+                        <div class="bio-name">muse name - no poi</div>
+                    </div>
+                    <!-- muse name end -->
+
+                    <!-- muse info -->
+                    <div class="bio-right-section">
+                        <!-- sub menu with links -->
+                        <div class="bio-nav-section">
+                            <div data-tab="tab3a" class="bio-nav-item">biography</div>
+                            <div data-tab="tab3b" class="bio-nav-item">verses</div>
+                            <a class="bio-nav-item" href="[your threads link]">muse</a>
+                            <a class="bio-nav-item" href="[your aesthetics link]">aesthetic</a>
+                            <a class="bio-nav-item" href="[your headcanons link]">headcanon</a>
+                        </div>
+                        <!-- sub menu with links ends -->
+
+
+                        <!-- tab - biography starts -->
+                        <div id="tab3a" class="subtab active">
+
+                            <!-- biography - basic -->
+
+                            <h3>basic</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">full name.</div>
+                                <span>Name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other names.</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other name(s)</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">titles</div>
+                                <span>Titles</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">occupation</div>
+                                <span>Occupation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">date of birth</div>
+                                <span>Date of Birth</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">race</div>
+                                <span>Race</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">gender . pronouns</div>
+                                <span>Gender . pronouns</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">orientation</div>
+                                <span>Orientation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">spoken languages</div>
+                                <span>Spoken languages</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - background -->
+
+                            <h3>background</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hometown</div>
+                                <span>Hometown</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">current residence</div>
+                                <span>Current Residence</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">father</div>
+                                <span>Father's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">mother</div>
+                                <span>Mother's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">siblings</div>
+                                <span>Siblings' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">child(ren)</div>
+                                <span>Children's names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">pet(s)</div>
+                                <span>Pets' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - physical -->
+
+                            <h3>physical</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">faceclaim</div>
+                                <span>Faceclaim name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">height</div>
+                                <span>Height</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">eye colour</div>
+                                <span>Eye colour</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hair colour . style</div>
+                                <span>Hair colour and style</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">dominant hand</div>
+                                <span>Dominant hand</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">tattoo(s)</div>
+                                <span>Tatoos</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">scar(s)</div>
+                                <span>Scars</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- other -->
+
+                            <h3>other</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">religion</div>
+                                <span>Religion</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">addictions</div>
+                                <span>Addictions</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title"> alignment</div>
+                                <span>Alignment</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hogwarts house</div>
+                                <span>Hogwarts house</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <!-- for example: closed, selective, open -->
+                                <div class="title">shipping</div>
+                                <span>Shipping</span>
+                            </div>
+                            <!-- muse information end -->
+
+                        </div>
+                        <!-- tab - biography ends -->
+
+                        <!-- tab - verses starts -->
+                        <div id="tab3b" class="subtab">
+
+                            <!-- canon -->
+
+                            <h3>canon verses</h3>
+
+                            <!-- list for canon verses starts -->
+                            <div class="verse-list">
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                            </div>
+                            <!-- list for canon verses ends -->
+
+                            <h3>alternative verses</h3>
+
+                            <!-- list for alternative verses starts -->
+                            <div class="verse-list">
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                            </div>
+                            <!-- list for alternative verses ends -->
+
+                        </div>
+                        <!-- tab - verses ends -->
+                    </div>
+                    <!-- muse info ends -->
+
+                    <!-- draggable popup starts -->
+                    <div class="plot-point-popup">
+                        <div class="ppp-header">
+                            <h3>important plot points</h3>
+                            <img class="drag" draggable="false" src="https://i.ibb.co/17XrX4K/move.png" />
+                        </div>
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                1.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                2.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                3.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                4.
+                            </div>
+                            <div class="ppp-description">
+                                this is a longer point about something that is important for readers to know before
+                                interaction, perhaps even longer than usual so that we can see how it looks with 3 lines
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+                    </div>
+                    <!-- draggable popup ends -->
+                </div>
+                <!-- muse 3 ends -->
+
+                <!-- muse 4 starts -->
+                <div class="tab" id="tab4">
+
+                    <!-- muse name -->
+                    <div class="bio-header-section">
+                        <div class="bio-name">muse name - no links</div>
+                    </div>
+                    <!-- muse name end -->
+
+                    <!-- muse info -->
+                    <div class="bio-right-section">
+                        <!-- sub menu with links -->
+                        <div class="bio-nav-section">
+                            <div data-tab="tab4a" class="bio-nav-item">biography</div>
+                            <div data-tab="tab4b" class="bio-nav-item">verses</div>
+                            <div data-tab="tab4c" class="bio-nav-item">people of note</div>
+                        </div>
+                        <!-- sub menu with links ends -->
+
+
+                        <!-- tab - biography starts -->
+                        <div id="tab4a" class="subtab active">
+
+                            <!-- biography - basic -->
+
+                            <h3>basic</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">full name.</div>
+                                <span>Name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other names.</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other name(s)</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">titles</div>
+                                <span>Titles</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">occupation</div>
+                                <span>Occupation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">date of birth</div>
+                                <span>Date of Birth</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">race</div>
+                                <span>Race</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">gender . pronouns</div>
+                                <span>Gender . pronouns</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">orientation</div>
+                                <span>Orientation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">spoken languages</div>
+                                <span>Spoken languages</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - background -->
+
+                            <h3>background</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hometown</div>
+                                <span>Hometown</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">current residence</div>
+                                <span>Current Residence</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">father</div>
+                                <span>Father's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">mother</div>
+                                <span>Mother's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">siblings</div>
+                                <span>Siblings' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">child(ren)</div>
+                                <span>Children's names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">pet(s)</div>
+                                <span>Pets' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - physical -->
+
+                            <h3>physical</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">faceclaim</div>
+                                <span>Faceclaim name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">height</div>
+                                <span>Height</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">eye colour</div>
+                                <span>Eye colour</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hair colour . style</div>
+                                <span>Hair colour and style</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">dominant hand</div>
+                                <span>Dominant hand</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">tattoo(s)</div>
+                                <span>Tatoos</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">scar(s)</div>
+                                <span>Scars</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- other -->
+
+                            <h3>other</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">religion</div>
+                                <span>Religion</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">addictions</div>
+                                <span>Addictions</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title"> alignment</div>
+                                <span>Alignment</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hogwarts house</div>
+                                <span>Hogwarts house</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <!-- for example: closed, selective, open -->
+                                <div class="title">shipping</div>
+                                <span>Shipping</span>
+                            </div>
+                            <!-- muse information end -->
+
+                        </div>
+                        <!-- tab - biography ends -->
+
+                        <!-- tab - verses starts -->
+                        <div id="tab4b" class="subtab">
+
+                            <!-- canon -->
+
+                            <h3>canon verses</h3>
+
+                            <!-- list for canon verses starts -->
+                            <div class="verse-list">
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                            </div>
+                            <!-- list for canon verses ends -->
+
+                            <h3>alternative verses</h3>
+
+                            <!-- list for alternative verses starts -->
+                            <div class="verse-list">
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                            </div>
+                            <!-- list for alternative verses ends -->
+
+                        </div>
+                        <!-- tab - verses ends -->
+
+                        <!-- tab - people of note starts -->
+                        <div id="tab4c" class="subtab">
+
+                            <h3>npcs</h3>
+
+                            <!-- list for npcs starts
+              npcs that you've created around your character but are not written by another person -->
+
+                            <div class="relationship-list">
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+
+                            </div>
+                            <!-- list for npcs ends -->
+
+                            <h3>connections</h3>
+
+                            <!-- list for connections starts
+            characters that you feel are important for your characterization and are written by other people in the community -->
+                            <div class="relationship-list">
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+                            </div>
+                            <!-- list for connections ends -->
+
+                        </div>
+                        <!-- tab - people of note ends -->
+                    </div>
+                    <!-- muse info ends -->
+
+                    <!-- draggable popup starts -->
+                    <div class="plot-point-popup">
+                        <div class="ppp-header">
+                            <h3>important plot points</h3>
+                            <img class="drag" draggable="false" src="https://i.ibb.co/17XrX4K/move.png" />
+                        </div>
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                1.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                2.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                3.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                4.
+                            </div>
+                            <div class="ppp-description">
+                                this is a longer point about something that is important for readers to know before
+                                interaction, perhaps even longer than usual so that we can see how it looks with 3 lines
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+                    </div>
+                    <!-- draggable popup ends -->
+                </div>
+                <!-- muse 4 ends -->
+
+                <!-- muse 5 starts -->
+                <div class="tab" id="tab5">
+
+                    <!-- muse name -->
+                    <div class="bio-header-section">
+                        <div class="bio-name">muse name 5</div>
+                    </div>
+                    <!-- muse name end -->
+
+                    <!-- muse info -->
+                    <div class="bio-right-section">
+                        <!-- sub menu with links -->
+                        <div class="bio-nav-section">
+                            <div data-tab="tab5a" class="bio-nav-item">biography</div>
+                            <div data-tab="tab5b" class="bio-nav-item">verses</div>
+                            <div data-tab="tab5c" class="bio-nav-item">people of note</div>
+                            <a class="bio-nav-item" href="[your threads link]">muse</a>
+                            <a class="bio-nav-item" href="[your aesthetics link]">aesthetic</a>
+                            <a class="bio-nav-item" href="[your headcanons link]">headcanon</a>
+                        </div>
+                        <!-- sub menu with links ends -->
+
+
+                        <!-- tab - biography starts -->
+                        <div id="tab5a" class="subtab active">
+
+                            <!-- biography - basic -->
+
+                            <h3>basic</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">full name.</div>
+                                <span>Name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other names.</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other name(s)</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">titles</div>
+                                <span>Titles</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">occupation</div>
+                                <span>Occupation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">date of birth</div>
+                                <span>Date of Birth</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">race</div>
+                                <span>Race</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">gender . pronouns</div>
+                                <span>Gender . pronouns</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">orientation</div>
+                                <span>Orientation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">spoken languages</div>
+                                <span>Spoken languages</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - background -->
+
+                            <h3>background</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hometown</div>
+                                <span>Hometown</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">current residence</div>
+                                <span>Current Residence</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">father</div>
+                                <span>Father's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">mother</div>
+                                <span>Mother's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">siblings</div>
+                                <span>Siblings' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">child(ren)</div>
+                                <span>Children's names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">pet(s)</div>
+                                <span>Pets' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - physical -->
+
+                            <h3>physical</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">faceclaim</div>
+                                <span>Faceclaim name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">height</div>
+                                <span>Height</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">eye colour</div>
+                                <span>Eye colour</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hair colour . style</div>
+                                <span>Hair colour and style</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">dominant hand</div>
+                                <span>Dominant hand</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">tattoo(s)</div>
+                                <span>Tatoos</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">scar(s)</div>
+                                <span>Scars</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- other -->
+
+                            <h3>other</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">religion</div>
+                                <span>Religion</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">addictions</div>
+                                <span>Addictions</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title"> alignment</div>
+                                <span>Alignment</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hogwarts house</div>
+                                <span>Hogwarts house</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <!-- for example: closed, selective, open -->
+                                <div class="title">shipping</div>
+                                <span>Shipping</span>
+                            </div>
+                            <!-- muse information end -->
+
+                        </div>
+                        <!-- tab - biography ends -->
+
+                        <!-- tab - verses starts -->
+                        <div id="tab5b" class="subtab">
+
+                            <!-- canon -->
+
+                            <h3>canon verses</h3>
+
+                            <!-- list for canon verses starts -->
+                            <div class="verse-list">
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                            </div>
+                            <!-- list for canon verses ends -->
+
+                            <h3>alternative verses</h3>
+
+                            <!-- list for alternative verses starts -->
+                            <div class="verse-list">
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                            </div>
+                            <!-- list for alternative verses ends -->
+
+                        </div>
+                        <!-- tab - verses ends -->
+
+                        <!-- tab - people of note starts -->
+                        <div id="tab5c" class="subtab">
+
+                            <h3>npcs</h3>
+
+                            <!-- list for npcs starts
+              npcs that you've created around your character but are not written by another person -->
+
+                            <div class="relationship-list">
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+
+                            </div>
+                            <!-- list for npcs ends -->
+
+                            <h3>connections</h3>
+
+                            <!-- list for connections starts
+            characters that you feel are important for your characterization and are written by other people in the community -->
+                            <div class="relationship-list">
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+                            </div>
+                            <!-- list for connections ends -->
+
+                        </div>
+                        <!-- tab - people of note ends -->
+                    </div>
+                    <!-- muse info ends -->
+
+                    <!-- draggable popup starts -->
+                    <div class="plot-point-popup">
+                        <div class="ppp-header">
+                            <h3>important plot points</h3>
+                            <img class="drag" draggable="false" src="https://i.ibb.co/17XrX4K/move.png" />
+                        </div>
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                1.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                2.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                3.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                4.
+                            </div>
+                            <div class="ppp-description">
+                                this is a longer point about something that is important for readers to know before
+                                interaction, perhaps even longer than usual so that we can see how it looks with 3 lines
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+                    </div>
+                    <!-- draggable popup ends -->
+                </div>
+                <!-- muse 5 ends -->
+
+                <!-- muse 6 starts -->
+                <div class="tab" id="tab6">
+
+                    <!-- muse name -->
+                    <div class="bio-header-section">
+                        <div class="bio-name">muse name 6</div>
+                    </div>
+                    <!-- muse name end -->
+
+                    <!-- muse info -->
+                    <div class="bio-right-section">
+                        <!-- sub menu with links -->
+                        <div class="bio-nav-section">
+                            <div data-tab="tab6a" class="bio-nav-item">biography</div>
+                            <div data-tab="tab6b" class="bio-nav-item">verses</div>
+                            <div data-tab="tab6c" class="bio-nav-item">people of note</div>
+                            <a class="bio-nav-item" href="[your threads link]">muse</a>
+                            <a class="bio-nav-item" href="[your aesthetics link]">aesthetic</a>
+                            <a class="bio-nav-item" href="[your headcanons link]">headcanon</a>
+                        </div>
+                        <!-- sub menu with links ends -->
+
+
+                        <!-- tab - biography starts -->
+                        <div id="tab6a" class="subtab active">
+
+                            <!-- biography - basic -->
+
+                            <h3>basic</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">full name.</div>
+                                <span>Name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other names.</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">other name(s)</div>
+                                <span>Other names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">titles</div>
+                                <span>Titles</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">occupation</div>
+                                <span>Occupation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">date of birth</div>
+                                <span>Date of Birth</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">race</div>
+                                <span>Race</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">gender . pronouns</div>
+                                <span>Gender . pronouns</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">orientation</div>
+                                <span>Orientation</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">spoken languages</div>
+                                <span>Spoken languages</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - background -->
+
+                            <h3>background</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hometown</div>
+                                <span>Hometown</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">current residence</div>
+                                <span>Current Residence</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">father</div>
+                                <span>Father's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">mother</div>
+                                <span>Mother's name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">siblings</div>
+                                <span>Siblings' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">child(ren)</div>
+                                <span>Children's names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">pet(s)</div>
+                                <span>Pets' names</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- biography - physical -->
+
+                            <h3>physical</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">faceclaim</div>
+                                <span>Faceclaim name</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">height</div>
+                                <span>Height</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">eye colour</div>
+                                <span>Eye colour</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hair colour . style</div>
+                                <span>Hair colour and style</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">dominant hand</div>
+                                <span>Dominant hand</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">tattoo(s)</div>
+                                <span>Tatoos</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">scar(s)</div>
+                                <span>Scars</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- other -->
+
+                            <h3>other</h3>
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">religion</div>
+                                <span>Religion</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">addictions</div>
+                                <span>Addictions</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title"> alignment</div>
+                                <span>Alignment</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <div class="title">hogwarts house</div>
+                                <span>Hogwarts house</span>
+                            </div>
+                            <!-- muse information end -->
+
+                            <!-- muse information start -->
+                            <div class="muse-info">
+                                <!-- for example: closed, selective, open -->
+                                <div class="title">shipping</div>
+                                <span>Shipping</span>
+                            </div>
+                            <!-- muse information end -->
+
+                        </div>
+                        <!-- tab - biography ends -->
+
+                        <!-- tab - verses starts -->
+                        <div id="tab6b" class="subtab">
+
+                            <!-- canon -->
+
+                            <h3>canon verses</h3>
+
+                            <!-- list for canon verses starts -->
+                            <div class="verse-list">
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                            </div>
+                            <!-- list for canon verses ends -->
+
+                            <h3>alternative verses</h3>
+
+                            <!-- list for alternative verses starts -->
+                            <div class="verse-list">
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                                <!-- verse item starts -->
+                                <div class="verse-item">
+                                    <div class="muse-quote-icon">
+                                        <span class="text">❝</span>
+                                    </div>
+                                    <div class="verse-name-availability">
+                                        <!-- example: 'after marriage' or 'childhood' -->
+                                        <div class="title">verse name</div>
+
+                                        <!-- example: closed, selective, open -->
+                                        <span>status</span>
+                                    </div>
+
+                                    <!-- verse description -->
+                                    <div class="verse-description">
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                        Longer verse description here. Longer verse description here. Longer verse
+                                        description here. Longer verse description here. Longer verse description here.
+                                    </div>
+                                </div>
+                                <!-- verse item ends -->
+
+                            </div>
+                            <!-- list for alternative verses ends -->
+
+                        </div>
+                        <!-- tab - verses ends -->
+
+                        <!-- tab - people of note starts -->
+                        <div id="tab6c" class="subtab">
+
+                            <h3>npcs</h3>
+
+                            <!-- list for npcs starts
+              npcs that you've created around your character but are not written by another person -->
+
+                            <div class="relationship-list">
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+
+                            </div>
+                            <!-- list for npcs ends -->
+
+                            <h3>connections</h3>
+
+                            <!-- list for connections starts
+            characters that you feel are important for your characterization and are written by other people in the community -->
+                            <div class="relationship-list">
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+
+                                <!-- relationship item starts -->
+                                <div class="relationship-item">
+                                    <!-- icon - 100px by 100px -->
+                                    <img draggable="false" src="https://i.ibb.co/wBvN9zc/icon.png">
+
+                                    <div class="relationship-description">
+                                        <div class="muse-quote-icon">
+                                            <span class="text">❝</span>
+                                        </div>
+                                        <div>
+                                            <!-- name -->
+                                            <div class="title">name</div>
+
+                                            <!-- relationship - example: father, mother -->
+                                            <div class="rel-type">relationship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- relationship item ends -->
+                            </div>
+                            <!-- list for connections ends -->
+
+                        </div>
+                        <!-- tab - people of note ends -->
+                    </div>
+                    <!-- muse info ends -->
+
+                    <!-- draggable popup starts -->
+                    <div class="plot-point-popup">
+                        <div class="ppp-header">
+                            <h3>important plot points</h3>
+                            <img class="drag" draggable="false" src="https://i.ibb.co/17XrX4K/move.png" />
+                        </div>
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                1.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                2.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                3.
+                            </div>
+                            <div class="ppp-description">
+                                point that is important for readers to know before interaction
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+
+                        <!-- plot points list item starts -->
+                        <div class="ppp-point">
+                            <div class="muse-quote-icon">
+                                4.
+                            </div>
+                            <div class="ppp-description">
+                                this is a longer point about something that is important for readers to know before
+                                interaction, perhaps even longer than usual so that we can see how it looks with 3 lines
+                            </div>
+                        </div>
+                        <!-- plot points list item end -->
+                    </div>
+                    <!-- draggable popup ends -->
+                </div>
+                <!-- muse 6 ends -->
+            </div>
+        </div>
+    </div>
+
+    <div id="credit">
+        💀
+    </div>
+</body>
+
+</html>
