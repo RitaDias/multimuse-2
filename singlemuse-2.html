@@ -41,38 +41,12 @@
     <script>
 
         window.addEventListener('DOMContentLoaded', (event) => {
-            let allIcons = document.querySelectorAll('.muse')
-            let activeIcon = document.querySelector('.muse.active')
-            let activeTab = document.querySelector('.tab.active')
 
             let allItems = document.querySelectorAll('.bio-nav-item')
             let activeSubTab = document.querySelector('.subtab.active')
 
 
             let drag = document.querySelectorAll('.plot-point-popup')
-
-            /* icon click */
-            allIcons.forEach(item => {
-                item.addEventListener("click", function (event) {
-                    let eventTab = event.currentTarget
-
-                    activeIcon.classList.remove('active');
-                    activeIcon = document.querySelector('[data-tab = ' + this.dataset.tab + ']');
-                    activeIcon.classList.add('active');
-
-                    activeTab.classList.remove('active');
-                    activeTab = document.querySelector('#' + eventTab.dataset.tab);
-
-                    activeSubTab.classList.remove('active');
-                    activeSubTab = document.querySelector('#' + eventTab.dataset.tab + 'a')
-
-                    /* select sub navigation */
-                    document.querySelector('#' + eventTab.dataset.tab).classList.add('active');
-                    document.querySelector('#' + eventTab.dataset.tab + 'a').classList.add('active');
-
-                    ppp = activeTab.querySelector('.plot-point-popup')
-                })
-            })
 
             /* sub tabs click */
             allItems.forEach(item => {
@@ -227,10 +201,9 @@
         /* muse selection */
         .muse-selection {
             position: sticky;
-            top: 159px;
+            top: 160px;
             z-index: 1;
             height: 805px;
-            overflow-y: scroll;
 
             display: inline-grid;
             grid-gap: 15px;
@@ -617,7 +590,7 @@
 <body>
     <div class="top-section">
 
-        <div class="muse-title">Muses;</div>
+        <div class="muse-title">Muse;</div>
         <div class="navigation-section">
 
             <!-- links -->
@@ -653,7 +626,7 @@
             <!-- muse icon starts: 300px by 400px -->
             <div class="muse" data-tab="tab2">
                 <img class="muse-img" draggable="false"
-                    src="https://i.ibb.co/nM2rRj9/4cdd3feb5db6a122033e7dd155e10beb.png">
+                    src="https://i.ibb.co/g9H2kJy/e92dc1662b4534c50d54defcebe335b5.png">
                 <div class="muse-quote">
                     <div class="muse-quote-icon"><span class="text">❝</span></div>
                     <div class="muse-quote-text">Well, I’m gonna scrawl my name On the bare bones of the earth I’m gonna
@@ -664,7 +637,7 @@
             <!-- muse icon starts: 300px by 400px -->
             <div class="muse" data-tab="tab3">
                 <img class="muse-img" draggable="false"
-                    src="https://i.ibb.co/vxhWPqh/8ba18db0e15be738da79bf732e89c043.png">
+                    src="https://i.ibb.co/rF5BmSw/29a1a65156aef6b3a543e7ba1b8b4cbb.png">
                 <div class="muse-quote">
                     <div class="muse-quote-icon"><span class="text">❝</span></div>
                     <div class="muse-quote-text">Well, I’m gonna scrawl my name On the bare bones of the earth I’m gonna
@@ -675,7 +648,7 @@
             <!-- muse icon starts: 300px by 400px -->
             <div class="muse" data-tab="tab4">
                 <img class="muse-img" draggable="false"
-                    src="https://i.ibb.co/qM9qCCV/ac625fbe4fa9b0890f0210fae6490425.png.jpg">
+                    src="https://i.ibb.co/840qwtS/b509f3f0d3a93eb575945f064a2389ad.png">
                 <div class="muse-quote">
                     <div class="muse-quote-icon"><span class="text">❝</span></div>
                     <div class="muse-quote-text">Well, I’m gonna scrawl my name On the bare bones of the earth I’m gonna
