@@ -286,6 +286,11 @@
             text-shadow: 2px 2px 1px #000000;
         }
 
+        .muse-quote-text a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
         /* muse listing and bio section */
 
         .bottom-section {
@@ -341,6 +346,12 @@
 
         .tab {
             display: none;
+            position: relative;
+        }
+
+        .tab a {
+            color: #ffffff;
+            text-decoration: none;
         }
 
         .tab.active {
@@ -349,6 +360,8 @@
 
         .subtab {
             display: none;
+            position: relative;
+            z-index: 1;
         }
 
         .subtab.active {
@@ -385,6 +398,7 @@
             position: sticky;
             text-transform: lowercase;
             top: 160px;
+            z-index: 4;
         }
 
         .bio-nav-item {
